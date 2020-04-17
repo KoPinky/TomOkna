@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище WindowCompanyModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appliances">
+          <Key>
+            <PropertyRef Name="id_Appliance" />
+          </Key>
+          <Property Name="id_Appliance" Type="int" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApplianceType_FK" Type="int" Nullable="false" />
+          <Property Name="DateOfManufacturere" Type="date" Nullable="false" />
+          <Property Name="GuaranteePeriodDay" Type="int" Nullable="false" />
+          <Property Name="Manufacturer_FK" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="AboutInformation" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ApplianceType">
+          <Key>
+            <PropertyRef Name="id_ApplianceType" />
+          </Key>
+          <Property Name="id_ApplianceType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="id_Clients" />
+          </Key>
+          <Property Name="id_Clients" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="14" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manufacturers">
+          <Key>
+            <PropertyRef Name="id_Manufacturers" />
+          </Key>
+          <Property Name="id_Manufacturers" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="14" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="id_Orders" />
+          </Key>
+          <Property Name="id_Orders" Type="int" Nullable="false" />
+          <Property Name="Seller_FK" Type="int" Nullable="false" />
+          <Property Name="Client_FK" Type="int" Nullable="false" />
+          <Property Name="Appliance_FK" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="date" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seller">
+          <Key>
+            <PropertyRef Name="id_Seller" />
+          </Key>
+          <Property Name="id_Seller" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Appliance__Appli__4222D4EF">
+          <End Role="ApplianceType" Type="Self.ApplianceType" Multiplicity="1" />
+          <End Role="Appliances" Type="Self.Appliances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplianceType">
+              <PropertyRef Name="id_ApplianceType" />
+            </Principal>
+            <Dependent Role="Appliances">
+              <PropertyRef Name="ApplianceType_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appliance__Manuf__4316F928">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="1" />
+          <End Role="Appliances" Type="Self.Appliances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="id_Manufacturers" />
+            </Principal>
+            <Dependent Role="Appliances">
+              <PropertyRef Name="Manufacturer_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Applianc__47DBAE45">
+          <End Role="Appliances" Type="Self.Appliances" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appliances">
+              <PropertyRef Name="id_Appliance" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Appliance_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Client_F__46E78A0C">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="id_Clients" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Client_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Seller_F__45F365D3">
+          <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seller">
+              <PropertyRef Name="id_Seller" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Seller_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище WindowCompanyModelContainer">
+          <EntitySet Name="Appliances" EntityType="Self.Appliances" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplianceType" EntityType="Self.ApplianceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Appliance__Appli__4222D4EF" Association="Self.FK__Appliance__Appli__4222D4EF">
+            <End Role="ApplianceType" EntitySet="ApplianceType" />
+            <End Role="Appliances" EntitySet="Appliances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appliance__Manuf__4316F928" Association="Self.FK__Appliance__Manuf__4316F928">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="Appliances" EntitySet="Appliances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Applianc__47DBAE45" Association="Self.FK__Orders__Applianc__47DBAE45">
+            <End Role="Appliances" EntitySet="Appliances" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Client_F__46E78A0C" Association="Self.FK__Orders__Client_F__46E78A0C">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Seller_F__45F365D3" Association="Self.FK__Orders__Seller_F__45F365D3">
+            <End Role="Seller" EntitySet="Seller" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WindowCompanyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appliances">
+          <Key>
+            <PropertyRef Name="id_Appliance" />
+          </Key>
+          <Property Name="id_Appliance" Type="Int32" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApplianceType_FK" Type="Int32" Nullable="false" />
+          <Property Name="DateOfManufacturere" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="GuaranteePeriodDay" Type="Int32" Nullable="false" />
+          <Property Name="Manufacturer_FK" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="AboutInformation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplianceType" Relationship="Self.FK__Appliance__Appli__4222D4EF" FromRole="Appliances" ToRole="ApplianceType" />
+          <NavigationProperty Name="Manufacturers" Relationship="Self.FK__Appliance__Manuf__4316F928" FromRole="Appliances" ToRole="Manufacturers" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Applianc__47DBAE45" FromRole="Appliances" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="ApplianceType">
+          <Key>
+            <PropertyRef Name="id_ApplianceType" />
+          </Key>
+          <Property Name="id_ApplianceType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Appliances" Relationship="Self.FK__Appliance__Appli__4222D4EF" FromRole="ApplianceType" ToRole="Appliances" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="id_Clients" />
+          </Key>
+          <Property Name="id_Clients" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="14" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Client_F__46E78A0C" FromRole="Clients" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Manufacturers">
+          <Key>
+            <PropertyRef Name="id_Manufacturers" />
+          </Key>
+          <Property Name="id_Manufacturers" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="14" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Appliances" Relationship="Self.FK__Appliance__Manuf__4316F928" FromRole="Manufacturers" ToRole="Appliances" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="id_Orders" />
+          </Key>
+          <Property Name="id_Orders" Type="Int32" Nullable="false" />
+          <Property Name="Seller_FK" Type="Int32" Nullable="false" />
+          <Property Name="Client_FK" Type="Int32" Nullable="false" />
+          <Property Name="Appliance_FK" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Appliances" Relationship="Self.FK__Orders__Applianc__47DBAE45" FromRole="Orders" ToRole="Appliances" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__Orders__Client_F__46E78A0C" FromRole="Orders" ToRole="Clients" />
+          <NavigationProperty Name="Seller" Relationship="Self.FK__Orders__Seller_F__45F365D3" FromRole="Orders" ToRole="Seller" />
+        </EntityType>
+        <EntityType Name="Seller">
+          <Key>
+            <PropertyRef Name="id_Seller" />
+          </Key>
+          <Property Name="id_Seller" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Seller_F__45F365D3" FromRole="Seller" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK__Appliance__Appli__4222D4EF">
+          <End Role="ApplianceType" Type="Self.ApplianceType" Multiplicity="1" />
+          <End Role="Appliances" Type="Self.Appliances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplianceType">
+              <PropertyRef Name="id_ApplianceType" />
+            </Principal>
+            <Dependent Role="Appliances">
+              <PropertyRef Name="ApplianceType_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appliance__Manuf__4316F928">
+          <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="1" />
+          <End Role="Appliances" Type="Self.Appliances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturers">
+              <PropertyRef Name="id_Manufacturers" />
+            </Principal>
+            <Dependent Role="Appliances">
+              <PropertyRef Name="Manufacturer_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Applianc__47DBAE45">
+          <End Role="Appliances" Type="Self.Appliances" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appliances">
+              <PropertyRef Name="id_Appliance" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Appliance_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Client_F__46E78A0C">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="id_Clients" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Client_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Seller_F__45F365D3">
+          <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seller">
+              <PropertyRef Name="id_Seller" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Seller_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WindowCompanyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appliances" EntityType="Self.Appliances" />
+          <EntitySet Name="ApplianceType" EntityType="Self.ApplianceType" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" />
+          <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" />
+          <EntitySet Name="Seller" EntityType="Self.Seller" />
+          <AssociationSet Name="FK__Appliance__Appli__4222D4EF" Association="Self.FK__Appliance__Appli__4222D4EF">
+            <End Role="ApplianceType" EntitySet="ApplianceType" />
+            <End Role="Appliances" EntitySet="Appliances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appliance__Manuf__4316F928" Association="Self.FK__Appliance__Manuf__4316F928">
+            <End Role="Manufacturers" EntitySet="Manufacturers" />
+            <End Role="Appliances" EntitySet="Appliances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Applianc__47DBAE45" Association="Self.FK__Orders__Applianc__47DBAE45">
+            <End Role="Appliances" EntitySet="Appliances" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Client_F__46E78A0C" Association="Self.FK__Orders__Client_F__46E78A0C">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Seller_F__45F365D3" Association="Self.FK__Orders__Seller_F__45F365D3">
+            <End Role="Seller" EntitySet="Seller" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище WindowCompanyModelContainer" CdmEntityContainer="WindowCompanyEntities">
+          <EntitySetMapping Name="Appliances">
+            <EntityTypeMapping TypeName="WindowCompanyModel.Appliances">
+              <MappingFragment StoreEntitySet="Appliances">
+                <ScalarProperty Name="id_Appliance" ColumnName="id_Appliance" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ApplianceType_FK" ColumnName="ApplianceType_FK" />
+                <ScalarProperty Name="DateOfManufacturere" ColumnName="DateOfManufacturere" />
+                <ScalarProperty Name="GuaranteePeriodDay" ColumnName="GuaranteePeriodDay" />
+                <ScalarProperty Name="Manufacturer_FK" ColumnName="Manufacturer_FK" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="AboutInformation" ColumnName="AboutInformation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplianceType">
+            <EntityTypeMapping TypeName="WindowCompanyModel.ApplianceType">
+              <MappingFragment StoreEntitySet="ApplianceType">
+                <ScalarProperty Name="id_ApplianceType" ColumnName="id_ApplianceType" />
+                <ScalarProperty Name="Type_Name" ColumnName="Type_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="WindowCompanyModel.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="id_Clients" ColumnName="id_Clients" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manufacturers">
+            <EntityTypeMapping TypeName="WindowCompanyModel.Manufacturers">
+              <MappingFragment StoreEntitySet="Manufacturers">
+                <ScalarProperty Name="id_Manufacturers" ColumnName="id_Manufacturers" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="WindowCompanyModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="id_Orders" ColumnName="id_Orders" />
+                <ScalarProperty Name="Seller_FK" ColumnName="Seller_FK" />
+                <ScalarProperty Name="Client_FK" ColumnName="Client_FK" />
+                <ScalarProperty Name="Appliance_FK" ColumnName="Appliance_FK" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seller">
+            <EntityTypeMapping TypeName="WindowCompanyModel.Seller">
+              <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="id_Seller" ColumnName="id_Seller" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
