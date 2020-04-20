@@ -10,16 +10,22 @@ using System.Windows.Forms;
 
 namespace TomOkna
 {
-    public partial class MainWindow : Form
+    public partial class sale : Form
     {
-        public MainWindow()
+        public sale()
         {
             InitializeComponent();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            
+        }
 
+        private void AddProd_Click(object sender, EventArgs e)
+        {
+            AddProduct AD = new AddProduct();
+            AD.Show();
         }
     }
 }
